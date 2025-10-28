@@ -12,6 +12,11 @@ export default function ListDash(): JSX.Element {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  // estados para confirmação em modal (substitui window.confirm)
+  const [deleteTarget, setDeleteTarget] = useState<number | string | null>(null);
+  const [confirmOpen, setConfirmOpen] = useState<boolean>(false);
+  const [deleting, setDeleting] = useState<boolean>(false);
+
   useEffect(() => {
     if (!supabase) {
       setError("Supabase não configurado. Verifique as variáveis de ambiente.");
@@ -93,9 +98,7 @@ export default function ListDash(): JSX.Element {
   }, []);
 
   async function deleteTraining(id: number | string) {
-    const confirmDelete = window.confirm('Deseja realmente excluir este treino?');
-    if (!confirmDelete) return;
-
+    setDeleting(true);
     setLoading(true);
     setError(null);
 
@@ -106,12 +109,19 @@ export default function ListDash(): JSX.Element {
 
     if (delErr) {
       setError(delErr.message);
+      setDeleting(false);
       setLoading(false);
       return;
     }
 
     setTrainings((prev) => prev.filter((t) => t.id !== id));
+    setDeleting(false);
     setLoading(false);
+  }
+
+  function requestDelete(id: number | string | null | undefined) {
+    setDeleteTarget(id ?? null);
+    setConfirmOpen(true);
   }
 
   if (loading) return <div>Carregando treinos...</div>;
@@ -142,8 +152,8 @@ export default function ListDash(): JSX.Element {
             <button
               aria-label="Excluir treino"
               title="Excluir treino"
-              onClick={(e) => { e.stopPropagation(); if (t.id != null) deleteTraining(t.id); }}
-              onKeyDown={(e) => { e.stopPropagation(); if (e.key === 'Enter' && t.id != null) deleteTraining(t.id); }}
+              onClick={(e) => { e.stopPropagation(); requestDelete(t.id); }}
+              onKeyDown={(e) => { e.stopPropagation(); if (e.key === 'Enter') requestDelete(t.id); }}
               className="ml-0 sm:ml-3 mt-0 sm:mt-0 self-end sm:self-auto text-red-600 hover:text-red-800 p-2 rounded focus:outline-none focus:ring-2 focus:ring-red-200 w-9 h-9 flex items-center justify-center"
             >
               <Trash size={16} />
@@ -151,6 +161,42 @@ export default function ListDash(): JSX.Element {
           </li>
         ))}
       </ul>
+
+      {confirmOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40"
+          role="dialog"
+          aria-modal="true"
+          onKeyDown={(e) => { if (e.key === 'Escape') { setConfirmOpen(false); setDeleteTarget(null); } }}
+        >
+          <div
+            className="bg-white rounded-md p-4 max-w-sm w-full mx-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="text-sm text-gray-800 mb-4">Deseja realmente excluir este treino?</div>
+            <div className="flex gap-2 justify-end">
+              <button
+                className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300"
+                onClick={() => { setConfirmOpen(false); setDeleteTarget(null); }}
+              >
+                Cancelar
+              </button>
+              <button
+                className="px-3 py-1 rounded bg-red-600 text-white hover:bg-red-700 disabled:opacity-50"
+                onClick={async () => {
+                  if (deleteTarget == null) return;
+                  await deleteTraining(deleteTarget);
+                  setConfirmOpen(false);
+                  setDeleteTarget(null);
+                }}
+                disabled={deleting}
+              >
+                {deleting ? 'Excluindo...' : 'Excluir'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
