@@ -120,21 +120,22 @@ export default function ListDash(): JSX.Element {
 
   return (
     <div>
-      <ul className="list-none p-0 ">
+      <ul className="list-none p-0">
         {trainings.map((t) => (
           <li
             key={t.id}
             onClick={() => navigate("/TrainingView", { state: { workout: t } })}
-            className="border border-gray-200 p-3 mb-2 rounded-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-indigo-200 hover:shadow-lg hover:bg-gray-100 transition-shadow duration-200 flex justify-between items-start"
+            className="border border-gray-200 p-3 mb-2 rounded-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-indigo-200 hover:shadow-lg hover:bg-gray-100 transition-shadow duration-200 flex flex-col sm:flex-row sm:items-start gap-3 sm:justify-between"
             role="button"
             tabIndex={0}
             onKeyDown={(e) => { if (e.key === 'Enter') navigate("/TrainingView", { state: { workout: t } }); }}
           >
-            <div>
-              <div className="font-bold">{t.name_user}</div>
-              <div className="text-xs text-gray-500 mt-1.5">
-                {t.objective ? `Objetivo: ${t.objective}` : null} {t.week_frequency ? ` | Frequência: ${t.week_frequency}` : null}
-                {t.level_knowledge ? ` | Nível: ${t.level_knowledge}` : null}
+            <div className="w-full">
+              <div className="font-bold text-base sm:text-lg break-words">{t.name_user}</div>
+              <div className="text-xs sm:text-sm text-gray-500 mt-1.5">
+                {t.objective ? `Objetivo: ${t.objective}` : null}
+                {t.week_frequency ? ` ${t.objective ? '|' : ''} Frequência: ${t.week_frequency}` : null}
+                {t.level_knowledge ? ` ${t.week_frequency ? '|' : ''} Nível: ${t.level_knowledge}` : null}
               </div>
             </div>
 
@@ -143,7 +144,7 @@ export default function ListDash(): JSX.Element {
               title="Excluir treino"
               onClick={(e) => { e.stopPropagation(); if (t.id != null) deleteTraining(t.id); }}
               onKeyDown={(e) => { e.stopPropagation(); if (e.key === 'Enter' && t.id != null) deleteTraining(t.id); }}
-              className="ml-3 text-red-600 hover:text-red-800 p-1 rounded focus:outline-none focus:ring-2 focus:ring-red-200"
+              className="ml-0 sm:ml-3 mt-0 sm:mt-0 self-end sm:self-auto text-red-600 hover:text-red-800 p-2 rounded focus:outline-none focus:ring-2 focus:ring-red-200 w-9 h-9 flex items-center justify-center"
             >
               <Trash size={16} />
             </button>

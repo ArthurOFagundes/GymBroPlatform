@@ -1,4 +1,4 @@
-import { AtSign, Eye, EyeOff, Lock } from "lucide-react";
+import { AtSign, Eye, EyeOff, Lock, Play } from "lucide-react";
 import { useState } from "react";
 import Button from "../generics/button/index.tsx";
 import Logo from "../generics/logo/index.tsx";
@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "../../supabase/supabaseClient.ts";
 import Label from "../generics/label/index.tsx";
 import Input from "../generics/input/index.tsx";
-import type { User, Session, WeakPassword } from "@supabase/supabase-js";
 
 
 export default function SignInForm() {
@@ -44,69 +43,83 @@ export default function SignInForm() {
   }
 
   return (
-    <>
-      <Logo />
-      <div className="text-slate-600 mt-2  ">
-        Acesse sua conta e continua sua evolução{" "}
-      </div>
-      <form onSubmit={handleSubmit} className="space-y-4 w-[75%]">
-        <div className="space-y-2">
-          <Label htmlFor="email" text="Email" />
-          <Input
-            icon={<AtSign size={20} />}
-            type="email"
-            id="email"
-            name="email"
-            placeholder="seu@email.com"
-            required
-            value={form.email}
-            onChange={handleChange} hasIcon={true} />
+    // Changed: container + responsive adjustments
+    <div className="w-full max-w-md sm:max-w-lg lg:max-w-xl mx-auto px-4 py-6">
+      <div className="flex flex-col items-center">
+        <Logo />
+        <div className="text-slate-600 mt-2 text-sm sm:text-base text-center">
+          Acesse sua conta e continua sua evolução
         </div>
-        <div className="space-y-2">
-          <Label htmlFor="password" text="Senha" />
-          <Input
-            icon={<Lock size={20} />}
-            type={showPassword ? "text" : "password"}
-            id="password"
-            name="password"
-            placeholder="Mínimo 6 caracteres"
-            required
-            value={form.password}
-            onChange={handleChange} hasIcon={true}                  >
 
-            <Button
-              className="font-medium transition-all duration-300   hover:scale-105 rounded-lg absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-              type="button"
-              onClick={() => setShowPassword((v) => !v)}
+        <form onSubmit={handleSubmit} className="space-y-4 w-full mt-4">
+          <div className="space-y-2">
+            <Label htmlFor="email" text="Email" />
+            <Input
+              icon={<AtSign size={20} />}
+              type="email"
+              id="email"
+              name="email"
+              placeholder="seu@email.com"
+              required
+              value={form.email}
+              onChange={handleChange}
+              hasIcon={true}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="password" text="Senha" />
+            <Input
+              icon={<Lock size={20} />}
+              type={showPassword ? "text" : "password"}
+              id="password"
+              name="password"
+              placeholder="Mínimo 6 caracteres"
+              required
+              value={form.password}
+              onChange={handleChange}
+              hasIcon={true}
             >
-              {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
-            </Button>
-          </Input>
-        </div>
-        <Button
-          className="font-medium transition-all duration-300 bg-gradient-primary text-primary-foreground hover:shadow-lg hover:shadow-primary/20 hover:scale-105 h-11 px-6 w-full bg-gradient-to-r from-sky-500 to-violet-500 hover:from-sky-600 hover:to-violet-600 py-6 text-lg text-slate-50"
-          type="submit"
-        >
-          Acessar
-        </Button>
-        <div className="text-center">
-          <Button onClick={() => { navigate('/forgot') }}
-            className="font-medium transition-all duration-300  underline-offset-4 hover:underline h-11 text-sky-500 hover:text-sky-600 p-0 text-sm"
-            type="button"
+              <span className="absolute right-1 top-1/2 -translate-y-1/2 text-gray-400">
+
+                <Button
+                  className="font-medium transition-all duration-300 hover:scale-105 rounded-lg h-full  hover:bg-transparent"
+                  type="button"
+                  onClick={() => setShowPassword((v) => !v)}
+                >
+                  {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
+                </Button>
+              </span>
+            </Input>
+          </div>
+
+          <Button
+            className="font-medium transition-all duration-300 bg-gradient-primary text-primary-foreground hover:shadow-lg hover:shadow-primary/20 hover:scale-105 h-10 sm:h-11 px-4 sm:px-6 w-full bg-gradient-to-r from-sky-500 to-violet-500 hover:from-sky-600 hover:to-violet-600 py-3 text-base sm:text-lg text-slate-50"
+            type="submit"
           >
-            Esqueci minha senha
+            Acessar
           </Button>
+
+          <div className="text-center">
+            <Button
+              onClick={() => { navigate('/forgot') }}
+              className="font-medium transition-all duration-300 underline-offset-4 hover:underline h-10 sm:h-11 text-sky-500 hover:text-sky-600 p-0 text-sm"
+              type="button"
+            >
+              Esqueci minha senha
+            </Button>
+          </div>
+        </form>
+
+        <div className="mt-6 text-center">
+          <p className="text-muted-foreground text-sm">
+            Não possui conta?{" "}
+            <Button onClick={() => { navigate('/sign-up') }} className="text-sm font-medium transition-all duration-300 underline-offset-4 hover:underline h-10 sm:h-11 text-sky-500 hover:text-sky-600 p-0">
+              Crie aqui
+            </Button>
+          </p>
         </div>
-      </form>
-      <div className="mt-6 text-center">
-        <p className="text-muted-foreground">
-          Não possui conta?{" "}
-          <Button onClick={() => { navigate('/sign-up') }} className="text-sm font-medium transition-all duration-300   underline-offset-4 hover:underline h-11 text-sky-500 hover:text-sky-600 p-0">
-            Crie aqui
-          </Button>
-        </p>
       </div>
-    </>
+    </div>
   );
 }
 

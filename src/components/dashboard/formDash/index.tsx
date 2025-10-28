@@ -44,23 +44,23 @@ function FormCreateTraining({ setModalOpen }: { setModalOpen: (open: boolean) =>
 
       <div className="w-[98%] h-px bg-gray-300 my-2" ></div>
 
-      <form action="submit" className="flex flex-col gap-2 h-full m-auto">
+      <form action="submit" className="flex flex-col gap-2 h-full m-auto w-full">
         {step === 1 && (
           <>
             <Label htmlFor={"name"} text={"Nome do Treino"} />
-            <Input type="text" placeholder="Nome do Treino" className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2" id={"name"} name={"nameUser"} required={false} value={form.nameUser} onChange={handleChange} />
+            <Input type="text" placeholder="Nome do Treino" className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2" id={"name"} name={"nameUser"} required={false} value={form.nameUser} onChange={handleChange} />
 
-            <div className="md:flex md:flex-row md:gap-4  items-center">
-              <div className="flex flex-row gap-2 w-full justify-between">
+            <div className="flex flex-col sm:flex-row sm:gap-4 items-center w-full">
+              <div className="flex flex-col sm:flex-row gap-2 w-full sm:justify-between">
                 <div className="flex flex-col gap-2 mt-4 w-full">
                   <Label htmlFor={"age"} text={"Idade"} />
-                  <Input type="number" placeholder="Idade:" className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2" id={"age"} name={"age"} required={false} value={form.age.toString()} onChange={handleChange} minValue={0} maxValue={150} />
+                  <Input type="number" placeholder="Idade:" className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2" id={"age"} name={"age"} required={false} value={form.age.toString()} onChange={handleChange} minValue={0} maxValue={150} />
                 </div>
 
                 <div className="flex flex-col gap-2 mt-4 w-full">
                   <Label htmlFor={"objective"} text={"Qual o objetivo:"} />
-                  <select className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 " id={"objective"} name={"objective"} required={false} value={form.objective} onChange={handleChange}>
-                    <option value="" disabled defaultChecked>objetivo</option>
+                  <select className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 " id={"objective"} name={"objective"} required={false} value={form.objective} onChange={handleChange}>
+                    <option value="" disabled>objetivo</option>
                     <option value="Hipertrofia">Hipertrofia</option>
                     <option value="Emagrecimento">Emagrecimento</option>
                     <option value="Resistência">Resistência</option>
@@ -74,23 +74,23 @@ function FormCreateTraining({ setModalOpen }: { setModalOpen: (open: boolean) =>
 
         {step === 2 && (
           <>
-            <div className="md:flex md:flex-col md:gap-4  items-center">
-              <div className="flex flex-row gap-2 w-full justify-between">
+            <div className="flex flex-col gap-4 items-center w-full">
+              <div className="flex flex-col sm:flex-row gap-2 w-full sm:justify-between">
                 <div className="flex flex-col gap-2 mt-4 w-full">
                   <Label htmlFor={"weekFrequency"} text={"Frequência Semanal:"} />
-                  <Input type="number" placeholder="Frequência Semanal" className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2" id={"weekFrequency"} name={"weekFrequency"} required={false} value={form.weekFrequency.toString()} maxValue={7} onChange={handleChange} />
+                  <Input type="number" placeholder="Frequência Semanal" className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2" id={"weekFrequency"} name={"weekFrequency"} required={false} value={form.weekFrequency.toString()} maxValue={7} onChange={handleChange} />
                 </div>
 
-                <div className="flex flex-col gap-2 mt-4 full">
+                <div className="flex flex-col gap-2 mt-4 w-full">
                   <Label htmlFor={"availableTime"} text={"Tempo disponível:"} />
-                  <Input type="number" placeholder="(Em Minutos)" className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2" id={"availableTime"} maxValue={1440} name={"availableTime"} required={false} value={form.availableTime.toString()} onChange={handleChange} />
+                  <Input type="number" placeholder="(Em Minutos)" className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2" id={"availableTime"} maxValue={1440} name={"availableTime"} required={false} value={form.availableTime.toString()} onChange={handleChange} />
                 </div>
               </div>
 
               <div className="flex flex-col gap-2 mt-4 w-full">
                 <Label htmlFor={"bestTime"} text={"Turno disponível:"} />
-                <select className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 " id={"bestTime"} name={"bestTime"} required={false} value={form.bestTime} onChange={handleChange}>
-                  <option value="" disabled defaultChecked>Selecione</option>
+                <select className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 " id={"bestTime"} name={"bestTime"} required={false} value={form.bestTime} onChange={handleChange}>
+                  <option value="" disabled>Selecione</option>
                   <option value="morning">Manhã</option>
                   <option value="afternoon">Tarde</option>
                   <option value="evening">Noite</option>
@@ -102,18 +102,18 @@ function FormCreateTraining({ setModalOpen }: { setModalOpen: (open: boolean) =>
 
         {step === 3 && (
           <>
-            <div className="flex flex-row gap-2 w-full justify-between">
+            <div className="flex flex-col gap-2 w-full">
               <div className="flex flex-col gap-2 mt-4 w-full">
                 <Label htmlFor={"health"} text={"Possui alguma condição de saúde ou doença?"} />
-                <select className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 " id={"health"} name={"health"} required={false} value={form.health.toString()} onChange={handleChange}>
-                  <option value="" disabled defaultChecked>Selecione</option>
+                <select className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 " id={"health"} name={"health"} required={false} value={form.health.toString()} onChange={handleChange}>
+                  <option value="" disabled>Selecione</option>
                   <option value="false">Não</option>
                   <option value="true">Sim</option>
                 </select>
                 {form.health === "true" ?
-                  <div className="flex flex-col gap-2 mt-4 full">
+                  <div className="flex flex-col gap-2 mt-4 w-full">
                     <Label htmlFor={"healthDetails"} text={"Se sim, por favor, forneça detalhes:"} />
-                    <Input type="text" placeholder="Detalhes da condição de saúde" className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2" id={"healthDetails"} name={"healthDetails"} required={form.health === "true" ? true : false} value={form.healthDetails.toString()} onChange={handleChange} />
+                    <Input type="text" placeholder="Detalhes da condição de saúde" className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2" id={"healthDetails"} name={"healthDetails"} required={form.health === "true" ? true : false} value={form.healthDetails.toString()} onChange={handleChange} />
                   </div> : null}
               </div>
             </div>
@@ -122,12 +122,12 @@ function FormCreateTraining({ setModalOpen }: { setModalOpen: (open: boolean) =>
 
         {step === 4 && (
           <>
-            <div className="md:flex md:flex-col md:gap-4  items-center">
-              <div className="flex flex-row gap-2 w-full justify-between">
+            <div className="flex flex-col gap-4 items-center w-full">
+              <div className="flex flex-col sm:flex-row gap-2 w-full sm:justify-between">
                 <div className="flex flex-col gap-2 mt-4 w-full">
                   <Label htmlFor={"levelKnowledge"} text={"Nível de conhecimento:"} />
-                  <select className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 " id={"levelKnowledge"} name={"levelKnowledge"} required={false} value={form.levelKnowledge} onChange={handleChange}>
-                    <option value="" disabled defaultChecked>Selecione</option>
+                  <select className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 " id={"levelKnowledge"} name={"levelKnowledge"} required={false} value={form.levelKnowledge} onChange={handleChange}>
+                    <option value="" disabled>Selecione</option>
                     <option value="Iniciante">Iniciante</option>
                     <option value="Intermediário">Intermediário</option>
                     <option value="Avançado">Avançado</option>
@@ -135,30 +135,32 @@ function FormCreateTraining({ setModalOpen }: { setModalOpen: (open: boolean) =>
                 </div>
               </div>
 
-              <MultiSelect
-                label="Equipamentos disponíveis:"
-                name="availableEquipment"
-                options={[
-                  { value: "Dumbbells", label: "Halteres" },
-                  { value: "Bench", label: "Banco" },
-                  { value: "Barbell", label: "Barra" },
-                  { value: "ResistanceBands", label: "Elásticos" },
-                  { value: "Weights", label: "Anilhas" },
-                  { value: "Pulleys", label: "Polias" },
-                ]}
-                selected={form.availableEquipment}
-                onChange={(selected) => setForm({ ...form, availableEquipment: selected })}
-              />
+              <div className="w-full">
+                <MultiSelect
+                  label="Equipamentos disponíveis:"
+                  name="availableEquipment"
+                  options={[
+                    { value: "Dumbbells", label: "Halteres" },
+                    { value: "Bench", label: "Banco" },
+                    { value: "Barbell", label: "Barra" },
+                    { value: "ResistanceBands", label: "Elásticos" },
+                    { value: "Weights", label: "Anilhas" },
+                    { value: "Pulleys", label: "Polias" },
+                  ]}
+                  selected={form.availableEquipment}
+                  onChange={(selected) => setForm({ ...form, availableEquipment: selected })}
+                />
+              </div>
             </div>
           </>
         )}
 
-        <div id="ActionButtons" className="flex justify-around mt-4">
+        <div id="ActionButtons" className="flex flex-col sm:flex-row items-center sm:justify-around mt-4 gap-2 w-full">
           {step >= 1 && (
-            <Button type="button" disabled={step === 1} onClick={prevStep} className="mr-2 border-2 hover:border-blue-500">Voltar</Button>
+            <Button type="button" disabled={step === 1} onClick={prevStep} className="w-full sm:w-auto mr-0 sm:mr-2 border-2 hover:border-blue-500">Voltar</Button>
           )}
           {step < 4 && (
-            <Button type="button" className="ml-2 border-2 hover:border-blue-500" onClick={nextStep}>Próximo</Button>
+            <Button type="button" className="w-full sm:w-auto ml-0 sm:ml-2 border-2 hover:border-blue-500" onClick={nextStep}>Próximo</Button>
           )}
           {step === 4 && (
             <Button
@@ -209,7 +211,7 @@ function FormCreateTraining({ setModalOpen }: { setModalOpen: (open: boolean) =>
                   setIsLoading(false);
                 }
               }}
-              className="ml-2 border-2 hover:border-blue-500"
+              className="w-full sm:w-auto ml-0 sm:ml-2 border-2 hover:border-blue-500"
             >
               Criar Treino
             </Button>

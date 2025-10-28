@@ -1,12 +1,52 @@
-# React + Vite
+# GymBro
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicação front-end em React + Vite (TypeScript) para gestão de treinos com integração ao Supabase e um cliente Gemini.
 
-Currently, two official plugins are available:
+## Visão geral
+- Front-end em React + Vite + TypeScript.
+- Autenticação e persistência com Supabase.
+- Geração/auxílio com modelo Gemini (cliente local/serviço).
+- Componentes organizados por responsabilidade (forms, dashboard, modais, generics).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Estrutura principal (src/)
+- App e entrada: `src/main.tsx`, `src/App.tsx`
+- Componentes: `src/components/*` (dashboard, formulários, componentes genéricos, modal, header/footer)
+- Páginas/layouts: `src/pages/*`
+- Supabase: `src/supabase/supabaseClient.ts`, `src/supabase/services/saveWorkout.ts`
+- Gemini: `src/gemini/geminiClient.ts`, `src/gemini/generateTrainee.ts`
+- Utilitários de rota: `src/utils/privateRoute.tsx`, `src/utils/publicRoute.tsx`
 
-## Expanding the ESLint configuration
+## Requisitos
+- Node.js (recomenda-se LTS)
+- npm ou yarn
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Instalação e execução (Windows)
+1. Instalar dependências:
+   npm install
+2. Rodar em desenvolvimento:
+   npm run dev
+3. Build para produção:
+   npm run build
+4. Prever build localmente:
+   npm run preview
+
+## Variáveis de ambiente
+Crie um arquivo `.env` na raiz com as variáveis necessárias (exemplos):
+- SUPABASE_URL=
+- SUPABASE_ANON_KEY=
+- GEMINI_API_KEY= (ou conforme usado em `src/gemini/geminiClient.ts`)
+
+## Pontos importantes
+- Serviços de persistência e geração de treino:
+  - `src/supabase/services/saveWorkout.ts`
+  - `src/gemini/generateTrainee.ts`
+- Rotas protegidas: `src/utils/privateRoute.tsx`
+- Componentes genéricos reutilizáveis em `src/components/generics`
+
+## Desenvolvimento e contribuição
+- Seguir convenções TypeScript/React já presentes.
+- Abrir PRs pequenos e claros.
+- Testar mudanças localmente com `npm run dev`.
+
+## Licença
+- MIT (ajuste conforme necessário).

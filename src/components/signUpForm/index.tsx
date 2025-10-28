@@ -82,15 +82,20 @@ export default function SignInForm() {
         </div>
         <div className="space-y-2">
           <Label htmlFor="password" text="Senha" />
-          <Input hasIcon={true} icon={<Lock size={20} />} type={showPassword ? "text" : "password"} id="password" name="password" placeholder="Mínimo 6 caracteres" required value={formData.password} onChange={handleChange}>
-            <Button
-              className="font-medium transition-all duration-300 hover:scale-105 rounded-lg h-full  hover:bg-transparent"
-              type="button"
-              onClick={() => setShowPassword((v) => !v)}
-            >
-              {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
-            </Button>
-          </Input>
+          <div className="relative">
+            <Input hasIcon={true} icon={<Lock size={20} />} type={showPassword ? "text" : "password"} id="password" name="password" placeholder="Mínimo 6 caracteres" required value={formData.password} onChange={handleChange}>
+              <span className="absolute right-1 top-1/2 -translate-y-1/2 text-gray-400">
+
+                <Button
+                  className="font-medium transition-all duration-300 hover:scale-105 rounded-lg h-full  hover:bg-transparent"
+                  type="button"
+                  onClick={() => setShowPassword((v) => !v)}
+                >
+                  {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
+                </Button>
+              </span>
+            </Input>
+          </div>
         </div>
         <Button
           className="font-medium transition-all duration-300 bg-gradient-primary text-primary-foreground hover:shadow-lg hover:shadow-primary/20 hover:scale-105 h-11 px-6 w-full bg-gradient-to-r from-sky-500 to-violet-500 hover:from-sky-600 hover:to-violet-600 py-6 text-lg text-slate-50"

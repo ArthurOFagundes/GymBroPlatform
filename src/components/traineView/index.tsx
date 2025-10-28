@@ -18,10 +18,15 @@ export default function TrainingView() {
 
   if (!workout) {
     return (
-      <div className="p-4">
-        <h2>Nenhum treino selecionado</h2>
-        <p>Volte para a lista e selecione um treino para ver os detalhes.</p>
-        <button onClick={() => navigate(-1)} className="mt-2 px-3 py-1.5 rounded bg-gray-100">Voltar</button>
+      <div className="p-4 w-full max-w-xl mx-auto">
+        <h2 className="text-lg font-semibold">Nenhum treino selecionado</h2>
+        <p className="mt-2 text-sm text-gray-600">Volte para a lista e selecione um treino para ver os detalhes.</p>
+        <button
+          onClick={() => navigate(-1)}
+          className="mt-4 w-full sm:w-auto px-3 py-2 rounded bg-gray-100 hover:bg-gray-200 transition"
+        >
+          Voltar
+        </button>
       </div>
     );
   }
@@ -48,9 +53,9 @@ export default function TrainingView() {
   const REDUNDANT_KEYS = new Set(['nameUser', 'name_user', 'name', 'created_at', 'updated_at', 'availableTime', 'available_time', 'weekFrequency', 'week_frequency', 'objective']);
 
   function renderItemContent(item: any, parentKey = 'root') {
-    if (!item || typeof item !== 'object') return <div>{formatPrimitive(item)}</div>;
+    if (!item || typeof item !== 'object') return <div className="break-words">{formatPrimitive(item)}</div>;
     return (
-      <div className="grid gap-2">
+      <div className="grid gap-3 grid-cols-1 sm:grid-cols-2">
         {Object.entries(item)
           .filter(([k]) => !REDUNDANT_KEYS.has(k))
           .map(([k, v]) => {
@@ -62,15 +67,15 @@ export default function TrainingView() {
 
               if (!arr || arr.length === 0) {
                 return (
-                  <div key={k}>
+                  <div key={k} className="break-words">
                     <strong>{k}:</strong> <span className="ml-2">—</span>
                   </div>
                 );
               }
 
               return (
-                <div key={k}>
-                  <div className="mt-1.5">
+                <div key={k} className="col-span-1 sm:col-span-2">
+                  <div className="mt-1.5 space-y-2">
                     {arr.map((t: any, idx: number) => {
                       const itemKey = `${parentKey}-${k}-${idx}`;
                       return (
@@ -90,14 +95,14 @@ export default function TrainingView() {
 
             if (Array.isArray(parsed)) {
               return (
-                <div key={k}>
+                <div key={k} className="break-words">
                   <strong>{k}:</strong>
-                  <ul className="mt-1.5 ml-4 list-disc list-inside">
+                  <ul className="mt-1.5 ml-4 list-disc list-inside max-h-48 overflow-auto">
                     {parsed.map((vv: any, idx: number) =>
                       typeof vv === 'object' ? (
-                        <li key={idx}>
+                        <li key={idx} className="mb-1">
                           {Object.entries(vv).map(([kk, vv2]) => (
-                            <div key={kk}><strong>{kk}:</strong> {formatPrimitive(vv2)}</div>
+                            <div key={kk}><strong>{kk}:</strong> <span className="ml-1">{formatPrimitive(vv2)}</span></div>
                           ))}
                         </li>
                       ) : (
@@ -111,13 +116,13 @@ export default function TrainingView() {
 
             if (v != null && typeof v === 'object') {
               return (
-                <div key={k}>
+                <div key={k} className="break-words">
                   <strong>{k}:</strong>
-                  <div className="mt-1.5 p-2 bg-gray-50 rounded-md border border-gray-200">
+                  <div className="mt-1.5 p-2 bg-gray-50 rounded-md border border-gray-200 overflow-auto">
                     {Object.entries(v as Record<string, any>).map(([kk, vv]) => (
-                      <div key={kk} className="mb-1.5">
-                        <strong className="inline-block w-32">{kk}:</strong>
-                        <span>{formatPrimitive(vv)}</span>
+                      <div key={kk} className="mb-1.5 flex gap-2">
+                        <strong className="inline-block w-28 sm:w-32 text-sm">{kk}:</strong>
+                        <span className="text-sm break-words">{formatPrimitive(vv)}</span>
                       </div>
                     ))}
                   </div>
@@ -126,7 +131,7 @@ export default function TrainingView() {
             }
 
             return (
-              <div key={k}>
+              <div key={k} className="break-words">
                 <strong>{k}:</strong> <span className="ml-2">{formatPrimitive(v)}</span>
               </div>
             );
@@ -136,28 +141,33 @@ export default function TrainingView() {
   }
 
   return (
-    <div className="p-4 w-full max-w-3xl mx-auto">
-      <button onClick={() => navigate(-1)} className="mb-3 px-3 py-1.5 rounded bg-gray-100  hover:bg-gray-200 transition-shadow duration-200">← Voltar</button>
+    <div className="px-4 py-6 w-full max-w-3xl mx-auto">
+      <button
+        onClick={() => navigate(-1)}
+        className="mb-4 w-full sm:w-auto px-3 py-2 rounded bg-gray-100 hover:bg-gray-200 transition"
+      >
+        ← Voltar
+      </button>
 
-      <header className="mb-3">
-        <h1 className="m-0 text-2xl"><strong>{workout.name_user ?? 'Treino'}</strong></h1>
-        <div className="text-gray-600 mt-1.5 flex gap-3 flex-wrap text-xl">
-          {workout.objective ? <div><strong>Objetivo:</strong> <span className="ml-1.5">{workout.objective}</span></div> : null}
-          {workout.week_frequency ? <div><strong>Frequência Semanal:</strong> <span className="ml-1.5">{workout.week_frequency}</span></div> : null}
+      <header className="mb-4">
+        <h1 className="m-0 text-xl sm:text-2xl font-semibold break-words">{workout.name_user ?? 'Treino'}</h1>
+        <div className="text-gray-600 mt-2 flex gap-3 flex-wrap text-sm sm:text-base">
+          {workout.objective ? <div className="break-words"><strong>Objetivo:</strong> <span className="ml-1">{workout.objective}</span></div> : null}
+          {workout.week_frequency ? <div><strong>Frequência Semanal:</strong> <span className="ml-1">{workout.week_frequency}</span></div> : null}
         </div>
       </header>
 
       <section className="mt-2">
         {!planKey || plan.length === 0 ? (
-          <div>Nenhum plano de treino disponível.</div>
+          <div className="text-sm">Nenhum plano de treino disponível.</div>
         ) : (
-          <div>
+          <div className="space-y-4">
             {plan.map((item, idx) => {
               const title = "Treinos";
               return (
                 <div key={idx} className="mb-2 border border-gray-200 rounded-md overflow-hidden bg-white">
                   <div
-                    className={`w-full text-left px-3 py-2.5  bg-gray-100 border-0 font-semibold`}
+                    className={`w-full text-left px-3 py-2 bg-gray-100 font-semibold text-sm sm:text-base`}
                   >
                     {title}
                   </div>

@@ -27,38 +27,52 @@ export function TrainingAccordionItem({
     <div className="mb-2 border border-gray-200 rounded-md overflow-hidden bg-white">
       <button
         onClick={onToggle}
-        className={`w-full text-left px-3 py-2.5 border-0 cursor-pointer font-semibold ${open ? 'bg-gray-100' : 'bg-gray-50'}`}
+        className={`w-full text-left px-3 py-3 sm:py-2.5 border-0 cursor-pointer font-semibold ${open ? 'bg-gray-100' : 'bg-gray-50'} text-sm sm:text-base flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-indigo-200`}
         aria-expanded={open}
       >
-        {title}
+        <span className="whitespace-normal break-words">{title}</span>
       </button>
 
       {open && (
         <div className="p-3 border-t border-gray-200">
-          <div className="ml-2">
-            <div className="mb-2 font-bold">Exercícios:</div>
+          <div className="ml-0 sm:ml-2">
+            <div className="mb-2 font-bold text-sm sm:text-base">Exercícios:</div>
             {exercises.length === 0 ? (
-              <div className="ml-2">—</div>
+              <div className="ml-2 text-sm">—</div>
             ) : (
               exercises.map((ex, i) => (
-                <div key={i} className="mb-2.5 p-2  rounded-md border border-gray-300">
-                  <div className="flex items-center">
-                    <strong>Exercicio:</strong>
-                    <span className="ml-1.5">{ex?.name ?? '-'}</span>
-                    <button
-                      type="button"
-                      onClick={() => openYoutubeSearch(ex?.name ?? '')}
-                      aria-label={`Pesquisar ${ex?.name ?? 'exercicio'} no YouTube`}
-                      className="ml-2 inline-flex items-center p-1 rounded hover:bg-gray-100 text-blue-600"
-                    >
-                      <Play size={16} />
-                    </button>
+                <div key={i} className="mb-2.5 p-3 sm:p-2 rounded-md border border-gray-300">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start sm:items-center gap-2">
+                        <strong className="text-sm sm:text-base">Exercício:</strong>
+                        <span className="ml-1.5 text-sm sm:text-base break-words truncate">{ex?.name ?? '-'}</span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => openYoutubeSearch(ex?.name ?? '')}
+                        aria-label={`Pesquisar ${ex?.name ?? 'exercicio'} no YouTube`}
+                        className="inline-flex items-center p-2 rounded hover:bg-gray-100 text-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-blue-200"
+                      >
+                        <Play size={16} />
+                      </button>
+                    </div>
                   </div>
-                  <div className="mt-1">
-                    <strong>Series:</strong> <span className="ml-1.5">{ex?.sets ?? '-'}</span>
-                    <span className="ml-3"><strong>Repetições:</strong> <span className="ml-1.5">{ex?.reps ?? ex?.Reps ?? '-'}</span></span>
+
+                  <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+                    <div>
+                      <strong>Series:</strong> <span className="ml-1">{ex?.sets ?? '-'}</span>
+                    </div>
+                    <div>
+                      <strong>Repetições:</strong> <span className="ml-1">{ex?.reps ?? ex?.Reps ?? '-'}</span>
+                    </div>
+                    <div className="sm:col-span-2">
+                      <strong>Descanso:</strong> <span className="ml-1">{ex?.rest ?? '-'}</span>
+                    </div>
                   </div>
-                  <div className="mt-1"><strong>Descanso:</strong> <span className="ml-1.5">{ex?.rest ?? '-'}</span></div>
                 </div>
               ))
             )}
