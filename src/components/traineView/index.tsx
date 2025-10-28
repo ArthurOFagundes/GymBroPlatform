@@ -1,7 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import type { Workout } from '../../supabase/services/saveWorkout.ts';
-import { supabase } from '../../supabase/supabaseClient.ts';
 import { TrainingAccordionItem } from '../TraineAccordItem/index.tsx';
 
 export default function TrainingView() {
@@ -142,45 +141,56 @@ export default function TrainingView() {
 
   return (
     <div className="px-4 py-6 w-full max-w-3xl mx-auto">
-      <button
-        onClick={() => navigate(-1)}
-        className="mb-4 w-full sm:w-auto px-3 py-2 rounded bg-gray-100 hover:bg-gray-200 transition"
-      >
-        ← Voltar
-      </button>
+      {/* Conteúdo com limite de altura e barra de rolagem personalizada (thumb gray-200) */}
+      <div className="max-h-[85vh] overflow-auto custom-scrollbar rounded">
+        <button
+          onClick={() => navigate(-1)}
+          className="mb-4 w-full sm:w-auto px-3 py-2 rounded bg-gray-100 hover:bg-gray-200 transition"
+        >
+          ← Voltar
+        </button>
 
-      <header className="mb-4">
-        <h1 className="m-0 text-xl sm:text-2xl font-semibold break-words">{workout.name_user ?? 'Treino'}</h1>
-        <div className="text-gray-600 mt-2 flex gap-3 flex-wrap text-sm sm:text-base">
-          {workout.objective ? <div className="break-words"><strong>Objetivo:</strong> <span className="ml-1">{workout.objective}</span></div> : null}
-          {workout.week_frequency ? <div><strong>Frequência Semanal:</strong> <span className="ml-1">{workout.week_frequency}</span></div> : null}
-        </div>
-      </header>
-
-      <section className="mt-2">
-        {!planKey || plan.length === 0 ? (
-          <div className="text-sm">Nenhum plano de treino disponível.</div>
-        ) : (
-          <div className="space-y-4">
-            {plan.map((item, idx) => {
-              const title = "Treinos";
-              return (
-                <div key={idx} className="mb-2 border border-gray-200 rounded-md overflow-hidden bg-white">
-                  <div
-                    className={`w-full text-left px-3 py-2 bg-gray-100 font-semibold text-sm sm:text-base`}
-                  >
-                    {title}
-                  </div>
-
-                  <div className="p-3 border-t border-gray-200">
-                    {renderItemContent(item, `plan-${idx}`)}
-                  </div>
-                </div>
-              );
-            })}
+        <header className="mb-4">
+          <h1 className="m-0 text-xl sm:text-2xl font-semibold break-words">{workout.name_user ?? 'Treino'}</h1>
+          <div className="text-gray-600 mt-2 flex gap-3 flex-wrap text-sm sm:text-base">
+            {workout.objective ? <div className="break-words"><strong>Objetivo:</strong> <span className="ml-1">{workout.objective}</span></div> : null}
+            {workout.week_frequency ? <div><strong>Frequência Semanal:</strong> <span className="ml-1">{workout.week_frequency}</span></div> : null}
           </div>
-        )}
-      </section>
+        </header>
+
+        <section className="mt-2">
+          {!planKey || plan.length === 0 ? (
+            <div className="text-sm">Nenhum plano de treino disponível.</div>
+          ) : (
+            <div className="space-y-4">
+              {plan.map((item, idx) => {
+                const title = "Treinos";
+                return (
+                  <div key={idx} className="mb-2 border border-gray-200 rounded-md overflow-hidden bg-white">
+                    <div
+                      className={`w-full text-left px-3 py-2 bg-gray-100 font-semibold text-sm sm:text-base`}
+                    >
+                      {title}
+                    </div>
+
+                    <div className="p-3 border-t border-gray-200">
+                      {renderItemContent(item, `plan-${idx}`)}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </section>
+      </div>
+
+      {/* Estilos da barra de rolagem (webkit + firefox) */}
+      <style>{`
+        .custom-scrollbar::-webkit-scrollbar { width: 10px; height: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #F3F4F6; } /* gray-100 */
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #E5E7EB; border-radius: 9999px; } /* gray-200 */
+        .custom-scrollbar { scrollbar-width: thin; scrollbar-color: #E5E7EB #F3F4F6; }
+      `}</style>
     </div>
   );
 }
