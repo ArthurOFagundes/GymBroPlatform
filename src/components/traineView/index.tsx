@@ -141,7 +141,7 @@ export default function TrainingView() {
 
   return (
     <div className="px-4 py-6 w-full max-w-3xl mx-auto">
-      {/* Conteúdo com limite de altura e barra de rolagem personalizada (thumb gray-200) */}
+
       <div className="max-h-[85vh] overflow-auto custom-scrollbar rounded">
         <button
           onClick={() => navigate(-1)}
@@ -184,7 +184,6 @@ export default function TrainingView() {
         </section>
       </div>
 
-      {/* Estilos da barra de rolagem (webkit + firefox) */}
       <style>{`
         .custom-scrollbar::-webkit-scrollbar { width: 10px; height: 10px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: #F3F4F6; } /* gray-100 */
